@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3纳米及以下技术代MOSFET设计方案遴选报告——基于FlipFET三维集成架构的研发评估</title>
+<!-- ECharts CDN -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================================================================ -->
+<!-- 顶栏 -->
+<!-- ================================================================ -->
+<header class="header">
+    <div>
+        <span class="header-title">3纳米及以下技术代MOSFET设计方案遴选报告</span>
+        <span class="header-subtitle">基于FlipFET三维集成架构的研发评估 · 微纳加工技术期中作业</span>
+    </div>
+    <div class="header-actions">
+        <button id="btn-export" title="导出PDF">🖨 导出PDF</button>
+    </div>
+</header>
+
+<!-- ================================================================ -->
+<!-- Tab 导航 -->
+<!-- ================================================================ -->
+<nav class="tab-bar">
+    <button class="tab-btn active" data-tab="overview">总览</button>
+    <button class="tab-btn" data-tab="competitor">竞品分析</button>
+    <button class="tab-btn" data-tab="landscape">竞争格局</button>
+    <button class="tab-btn" data-tab="flipfet">FlipFET详析 <span class="star">★</span></button>
+    <button class="tab-btn" data-tab="roadmap">研发计划</button>
+    <button class="tab-btn" data-tab="references">参考文献</button>
+</nav>
+
+<div class="container">
+
+<!-- ================================================================ -->
+<!-- Tab 1: 总览 -->
+<!-- ================================================================ -->
+<section id="tab-overview" class="tab-content active">
+
+    <!-- KPI 卡片 -->
+    <div class="kpi-grid" id="kpi-grid">
+        <div class="kpi-card"><div class="kpi-badge">A2 Node</div><div class="kpi-label">栅极长度 Lg</div><div class="kpi-value" data-target="15" data-unit=" nm">0 nm</div><div class="kpi-suffix">Gate Length</div></div>
+        <div class="kpi-card"><div class="kpi-badge">A2 Node</div><div class="kpi-label">亚阈值摆幅 SS</div><div class="kpi-value" data-target="73.1" data-decimals="1" data-unit=" mV/dec">0.0 mV/dec</div><div class="kpi-suffix">Subthreshold Swing</div></div>
+        <div class="kpi-card"><div class="kpi-badge">A2 Node</div><div class="kpi-label">漏致势垒降低 DIBL</div><div class="kpi-value" data-target="24" data-unit=" mV">0 mV</div><div class="kpi-suffix">Drain-Induced Barrier Lowering</div></div>
+        <div class="kpi-card"><div class="kpi-badge">A2 Node</div><div class="kpi-label">等效氧化层厚度 EOT</div><div class="kpi-value" data-target="0.91" data-decimals="2" data-unit=" nm">0.00 nm</div><div class="kpi-suffix">Equivalent Oxide Thickness</div></div>
+    </div>
+
+    <!-- 摘要 -->
+    <div class="card">
+        <h3>摘要</h3>
+        <p>随着半导体工艺进入 3 nm 及以下技术节点，传统硅基 CMOS 器件正逐步逼近物理缩放极限，摩尔定律的演进路径正在从二维尺寸缩放转向三维集成密度提升。根据 IRDS 2024路线图，未来先进逻辑器件的发展重点将集中于三维堆叠、背面供电以及新型晶体管架构。在这一背景下，全球主要半导体企业与研究机构围绕GAA Nanosheet、CFET、Forksheet 以及FlipFET等方向展开激烈竞争。</p>
+        <p>本报告在系统梳理国际先进逻辑器件技术路线的基础上，建议将 FlipFET（FFET）三维集成架构作为研发团队重点布局方向。FlipFET 由黄如与吴恒团队提出，并于 VLSI 2024 首次公开、VLSI 2025 完整展示其器件与 PPA 缩放路线。该架构区别于传统 CFET 的"单面垂直堆叠"模式，采用晶圆翻转（flip）、衬底减薄与双面器件制造技术，在同一晶圆前后两侧协同构建 CMOS 器件与互连结构，从而实现面向后摩尔时代的三维 CMOS 集成方案。FFET 架构进一步结合 GAA nanosheet、Forksheet 与 ePR等技术，具备向更高层数三维集成扩展的潜力。</p>
+        <p>与传统 FinFET 架构相比，FFET 在逻辑密度、互连效率与功耗方面展现出显著优势。其在标准单元、SRAM 与 RISC-V Core 等典型 benchmark 中均获得明显的面积缩减与能效优化；同时，双面工艺结构有效降低了布线拥塞与互连寄生效应。相比 CFET 所需的高深宽比垂直图形化与复杂热预算控制，FFET 通过前后侧工艺解耦，显著提升了工艺可制造性，并能够较好兼容现有 FinFET/GAA 制造基础设施。</p>
+        <p>同时，FFET 属于中国团队提出的新型三维逻辑器件架构，在先进逻辑器件领域具有重要原创性，对于未来高端芯片产业链中的专利布局与技术自主可控具有重要战略意义。</p>
+    </div>
+
+    <!-- 图表行: 五方案对比 + 时间线 -->
+    <div class="chart-row">
+        <div class="chart-box">
+            <div class="chart-title">图1: FlipFET集成架构示意图</div>
+            <img src="../charts/FFET集成架构示意图.png" alt="FlipFET集成架构示意图" style="width:100%;max-height:440px;object-fit:contain;">
+        </div>
+        <div class="chart-box">
+            <div class="chart-title">图2: 后摩尔时代晶体管技术演进路线 (基于IRDS 2024)</div>
+            <img src="../charts/04_Technology_Timeline.svg" alt="技术演进路线" style="width:100%;max-height:300px;object-fit:contain;margin-bottom:12px;">
+            <img src="../charts/晶体管技术演进路线.png" alt="晶体管技术演进路线" style="width:100%;max-height:350px;object-fit:contain;">
+        </div>
+    </div>
+
+</section>
+
+<!-- ================================================================ -->
+<!-- Tab 2: 竞品分析 -->
+<!-- ================================================================ -->
+<section id="tab-competitor" class="tab-content">
+
+    <!-- Ion vs Ioff -->
+    <div class="chart-box">
+        <div class="chart-title">图3: Ion vs Ioff 性能对比 (对数坐标, 右下=最优, 点击数据点展开对应详情)</div>
+        <div class="chart-div" id="chart-ion-ioff"></div>
+    </div>
+
+    <!-- SS 柱状图 -->
+    <div class="chart-box">
+        <div class="chart-title">图4: 亚阈值摆幅(SS)对比 — 越低表示开关特性越好</div>
+        <img src="../charts/03_SS_Comparison.svg" alt="SS亚阈值摆幅对比" style="width:100%; max-width:900px; display:block; margin:0 auto;">
+    </div>
+
+    <!-- 竞品折叠面板 -->
+    <h3 style="margin-bottom:12px">竞品方案详细分析 (点击展开)</h3>
+
+    <details class="comp-panel" id="panel-gaa">
+        <summary>GAA纳米片 — 当前主流方案 (三星/TSMC/Intel量产中)</summary>
+        <div class="panel-body">
+            <p>GAA纳米片的核心特征是垂直堆叠2至多个水平硅纳米片作为沟道，栅极金属从四个方向全包围。TSMC N2 (2025下半年量产) 实现SS 60.1 mV/dec、功耗-35%或性能+15% vs N3；三星3nm MBCFET为业界首款GAA量产。主要局限：n/p横向间距制约标准单元高度进一步缩放(维持5T)，自热效应不可忽略。</p>
+            <table class="data-table">
+                <thead><tr><th>参数</th><th>数值</th><th>来源</th></tr></thead>
+                <tbody>
+                    <tr><td>Lg (栅极长度)</td><td>12~20 nm</td><td>TSMC IEDM 2024</td></tr>
+                    <tr><td>EOT</td><td>~0.78 nm</td><td>Physica Scripta 2025</td></tr>
+                    <tr><td>SS (最佳)</td><td>60.1 mV/dec</td><td>TSMC IEDM 2024</td></tr>
+                    <tr><td>Ion/Ioff</td><td>10⁵~10⁹</td><td>Yeap G et al. 2nm Nanosheet Transistors IEDM 2024(TSMC N2); Rani J et al. MBCFET Physica Scripta 2025(JL优化)</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <details class="comp-panel" id="panel-fork">
+        <summary>Forksheet — 改良过渡方案 (仅imec R&D, 无代工厂公开承诺)</summary>
+        <div class="panel-body">
+            <p>imec在VLSI 2025展示了外壁Forksheet方案：在n/p之间插入介质壁，标准单元高度缩至~90nm、SRAM面积-22%。外壁方案支持全沟道应变工程补偿驱动损失，Ω-gate蚀刻后驱动电流+25%。但至今无代工厂公开承诺采用，且Ω-gate仅三面半包围(静电弱于GAA四面全包)。</p>
+        </div>
+    </details>
+
+    <details class="comp-panel" id="panel-cfet">
+        <summary>CFET — 国际主推的终局方案 (imec/TSMC/三星/Intel, 量产预期2030-2035)</summary>
+        <div class="panel-body">
+            <p>CFET将nMOS与pMOS垂直堆叠在同一footprint上，面积可缩减50-55%。imec在VLSI 2024展示了全球首个电学功能验证的单片CFET (Lg=18nm, Gate Pitch=60nm)，2025年CMOS存活率从5%提升至30%。台积电IEDM 2024展示了48nm Gate Pitch全功能CFET反相器。</p>
+            <p><strong>核心瓶颈：</strong>工艺存活率目前仅30%(远低于量产要求的>90%)，IRDS已将其量产预期从2031推迟至2035；自热效应严重(NBTI电压加速因子2.26)；n/p驱动电流失配；MGG导致VTH变异14-16mV。</p>
+        </div>
+    </details>
+
+    <details class="comp-panel" id="panel-2d">
+        <summary>二维材料FET — 远期储备 (MoS₂/WSe₂, 量产窗口2035+)</summary>
+        <div class="panel-body">
+            <p>2025 IEDM上三星、TSMC、Intel、CEA-Leti、imec、普渡、复旦同时展示2D FET最新进展。复旦实现~6000晶体管MoS₂微处理器；普渡演示Lch=20nm近SCE免疫的MoS₂ FET。但p型接触电阻是最大短板，TMD散热为硅的3倍，大面积均匀性不足。</p>
+        </div>
+    </details>
+
+</section>
+
+<!-- ================================================================ -->
+<!-- Tab 竞争格局: 国际竞争对手战略格局 -->
+<!-- ================================================================ -->
+<section id="tab-landscape" class="tab-content">
+
+    <!-- KPI 卡片 -->
+    <div class="kpi-grid">
+        <div class="kpi-card" style="border-left-color:#E65100;"><div class="kpi-label">BSPDN领先者</div><div class="kpi-value" style="color:#E65100;">Intel</div><div class="kpi-suffix">PowerVia 2025H2 量产</div></div>
+        <div class="kpi-card" style="border-left-color:#E65100;"><div class="kpi-label">High-NA EUV领先者</div><div class="kpi-value" style="color:#E65100;">Intel</div><div class="kpi-suffix">2台EXE:5000已安装</div></div>
+        <div class="kpi-card" style="border-left-color:#1565C0;"><div class="kpi-label">先进封装领先者</div><div class="kpi-value" style="color:#1565C0;">TSMC</div><div class="kpi-suffix">CoWoS月产能~8万片, 份额>90%</div></div>
+        <div class="kpi-card" style="border-left-color:#7B1FA2;"><div class="kpi-label">最大风险</div><div class="kpi-value" style="color:#7B1FA2;">Rapidus</div><div class="kpi-suffix">2027量产 vs TSMC 2025</div></div>
+    </div>
+
+    <!-- BSPDN 就绪度 + SRAM 密度 -->
+    <div class="chart-row">
+        <div class="chart-box">
+            <div class="chart-title">图8: BSPDN (背面供电)</div>
+            <div class="chart-div" id="chart-bspdn"></div>
+        </div>
+        <div class="chart-box">
+            <div class="chart-title">图9: SRAM Macro</div>
+            <div class="chart-div" id="chart-sram-density"></div>
+        </div>
+    </div>
+
+    <!-- 公司战略画像面板 -->
+    <h3 style="margin-bottom:12px">国际竞争对手战略画像 (点击展开)</h3>
+
+    <details class="comp-panel">
+        <summary>TSMC (台积电) — 渐进式GAA + 系统级集成双轮驱动</summary>
+        <div class="panel-body">
+            <p><strong>当前节点：</strong>3nm FinFET (N3/N3E) | <strong>2nm目标：</strong>N2 GAA纳米片 2025H2量产; A16 Super Power Rail BSPDN 2026H2</p>
+            <p><strong>核心策略：</strong>不在单一技术上冒险——GAA和BSPDN分步部署(N2先GAA、A16再加BSPDN)；同时通过3DFabric封装生态(CoWoS/SoIC/InFO)锁定AI/HPC客户，形成"工艺+封装"捆绑优势。NanoFlex多Vt方案提供6种Vt选择、~200mV覆盖范围，满足从移动端到HPC全频谱需求。</p>
+            <p><strong>关键风险：</strong>High-NA EUV明确不采用(坚持0.33NA至A14节点，2030+才考虑)，长期分辨率竞争力存疑；台湾海峡地缘政治风险；CoWoS产能缺口~15%</p>
+            <table class="data-table">
+                <thead><tr><th>指标</th><th>N2 (2025H2)</th><th>A16 SPR (2026H2)</th></tr></thead>
+                <tbody>
+                    <tr><td>晶体管架构</td><td>GAA纳米片</td><td>GAA纳米片 + BSPDN</td></tr>
+                    <tr><td>SRAM密度</td><td>~38 Mb/mm²</td><td>TBD</td></tr>
+                    <tr><td>逻辑密度</td><td>313 MTr/mm²</td><td>TBD</td></tr>
+                    <tr><td>SS</td><td>60.1 mV/dec (近理想)</td><td>TBD</td></tr>
+                    <tr><td>High-NA EUV</td><td>否 (0.33NA)</td><td>否 (0.33NA)</td></tr>
+                </tbody>
+                <tfoot>
+                    <tr><td colspan="3" style="font-size:11px;color:#888;text-align:left;">数据来源: N2 SRAM ~38 Mb/mm² — TSMC IEDM 2024; 逻辑密度 313 MTr/mm² — TSMC IEDM 2024; SS 60.1 mV/dec — TSMC IEDM 2024</td></tr>
+                </tfoot>
+            </table>
+        </div>
+    </details>
+
+    <details class="comp-panel">
+        <summary>Intel (英特尔) — BSPDN + High-NA EUV 双先锋, IDM 2.0 转型中</summary>
+        <div class="panel-body">
+            <p><strong>当前节点：</strong>Intel 4/3 | <strong>2nm目标：</strong>18A (RibbonFET GAA + PowerVia BSPDN) 2025H2量产; 14A (1.4nm) 2027试产</p>
+            <p><strong>核心策略：</strong>技术激进——全球唯一同时在2nm节点部署GAA+BSPDN的厂商，PowerVia领先TSMC整整一年。High-NA EUV独家布局(2台EXE:5000已安装，EXE:5200B验收中)，为14A节点(2027)储备分辨率优势。IDM 2.0模式向外开放代工产能，争夺AWS/Google等CSP自研ASIC订单。</p>
+            <p><strong>关键风险：</strong>历史执行纪录(10nm/7nm多次跳票)动摇客户信任；SRAM密度(~31.8 Mb/mm²)落后TSMC N2(~38)；代工客户获取尚在早期(Microsoft/Amazon宣布合作但未上量)；IDM重资产模式带来财务压力</p>
+            <table class="data-table">
+                <thead><tr><th>指标</th><th>18A (2025H2)</th><th>14A (2027试产)</th></tr></thead>
+                <tbody>
+                    <tr><td>晶体管架构</td><td>RibbonFET GAA + PowerVia BSPDN</td><td>RibbonFET + PowerVia + High-NA EUV</td></tr>
+                    <tr><td>SRAM密度</td><td>~31.8 Mb/mm²</td><td>TBD</td></tr>
+                    <tr><td>逻辑密度</td><td>238 MTr/mm²</td><td>TBD</td></tr>
+                    <tr><td>BSPDN IR Drop</td><td>-30%</td><td>TBD</td></tr>
+                    <tr><td>High-NA EUV</td><td>辅助开发 (0.55NA)</td><td>主力生产 (0.55NA)</td></tr>
+                </tbody>
+                <tfoot>
+                    <tr><td colspan="3" style="font-size:11px;color:#888;text-align:left;">数据来源: 18A SRAM ~31.8 Mb/mm² — Intel IEDM 2024; 逻辑密度 238 MTr/mm² — Intel Technology Roadmap 2025; BSPDN IR Drop -30% — Intel IEDM 2024</td></tr>
+                </tfoot>
+            </table>
+        </div>
+    </details>
+
+    <details class="comp-panel">
+        <summary>Samsung (三星) — GAA先发但良率受挫, 存储协同寻求破局</summary>
+        <div class="panel-body">
+            <p><strong>当前节点：</strong>SF3 GAA MBCFET | <strong>2nm目标：</strong>SF2 2025-2026; SF2Z BSPDN 2027; SF1.4 2027+</p>
+            <p><strong>核心策略：</strong>全球首款GAA量产(SF3, 2022)占得先发优势，但良率挣扎(Samsung Foundry Forum 2023; ChosunBiz 2023; TrendForce 2024综合报道, 约20-60%)导致Qualcomm/NVIDIA转单TSMC。SF2集成BSPDN以追赶Intel/TSMC。存储-逻辑协同是差异化王牌——HBM+HBM4+Cube封装可与代工业务形成Turnkey方案。特斯拉AI6芯片$16.5B Turnkey订单是代工业务的关键转折点。</p>
+            <p><strong>关键风险：</strong>SF3良率未达客户预期→核心客户流失→产能利用率不足→持续亏损(代工业务2023-2024亏损>$3B)；High-NA EUV部署晚于Intel；在先进封装市场份额<5%、与TSMC的>90%存在数量级差距</p>
+            <table class="data-table">
+                <thead><tr><th>指标</th><th>SF3 (3nm)</th><th>SF2 (2nm)</th></tr></thead>
+                <tbody>
+                    <tr><td>晶体管架构</td><td>GAA MBCFET</td><td>GAA MBCFET + BSPDN</td></tr>
+                    <tr><td>SRAM密度</td><td>~28 Mb/mm² (估算)</td><td>TBD</td></tr>
+                    <tr><td>逻辑密度</td><td>231 MTr/mm²</td><td>TBD</td></tr>
+                    <tr><td>SS</td><td>~68 mV/dec</td><td>TBD</td></tr>
+                    <tr><td>良率</td><td>20-60% <small>(Samsung Foundry Forum 2023; ChosunBiz 2023; TrendForce 2024)</small></td><td>TBD</td></tr>
+                </tbody>
+                <tfoot>
+                    <tr><td colspan="3" style="font-size:11px;color:#888;text-align:left;">数据来源: SF3 逻辑密度 231 MTr/mm² — Samsung Foundry Forum 2023; SRAM ~28 Mb/mm² — 基于公开文献估算; SS ~68 mV/dec — Samsung VLSI 2022</td></tr>
+                </tfoot>
+            </table>
+        </div>
+    </details>
+
+    <details class="comp-panel">
+        <summary>Rapidus (日本) — 政府驱动新进入者, IBM技术背书</summary>
+        <div class="panel-body">
+            <p><strong>当前节点：</strong>无 (全新建设) | <strong>2nm目标：</strong>IBM 2nm GAA纳米片技术转移, 2027量产; 1.4nm 2029</p>
+            <p><strong>核心策略：</strong>日本政府产业政策驱动(总投入~2.4万亿日元) + IBM 2nm技术授权。差异化定位为"先进逻辑快捷通道"——单晶圆加工模式(非大批量)、低最小订单量、快周转周期，服务小众高价值客户。首客Canon(图像处理芯片)、Tenstorrent(AI处理器)、Fujitsu(AI NPU)。</p>
+            <p><strong>关键风险：</strong>零先进节点量产履历(TSMC/Samsung/Intel均有数十年量产经验)；2027目标比一线厂商晚2-3年；资金规模(年投入数十亿美元)比三大厂商(年投入数百亿美元)低两个数量级；日本半导体人才断层(1990年代后产业萎缩导致工程师断层)</p>
+            <table class="data-table">
+                <thead><tr><th>指标</th><th>状态</th><th>说明</th></tr></thead>
+                <tbody>
+                    <tr><td>IIM-1工厂</td><td>已激活</td><td>北海道千岁, EUV已安装, 2nm测试晶圆运行中</td></tr>
+                    <tr><td>原型验证</td><td>已完成</td><td>2025年7月展示2nm功能晶体管, 电学特性达标</td></tr>
+                    <tr><td>PDK发布</td><td>2026春</td><td>IBM合作, 客户开始设计导入</td></tr>
+                    <tr><td>首客确认</td><td>Canon (2026.3)</td><td>影像处理芯片, 总研发费~400亿日元</td></tr>
+                    <tr><td>量产目标</td><td>2027下半年</td><td>首个外部客户预计Tenstorrent AI处理器</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <!-- 3D封装生态系统表 -->
+    <div class="card">
+        <h3>3D先进封装生态系统对比</h3>
+        <table class="data-table">
+            <thead><tr><th>公司</th><th>平台</th><th>核心技术</th><th>最大中介层</th><th>互连间距</th><th>关键客户</th><th>2025-2026关键进展</th></tr></thead>
+            <tbody id="packaging-table-body"></tbody>
+        </table>
+    </div>
+
+    <!-- 2nm差异化能力总览表 -->
+    <div class="card">
+        <h3>2nm节点关键差异化能力总览</h3>
+        <table class="data-table">
+            <thead><tr><th>公司/节点</th><th>晶体管</th><th>BSPDN</th><th>High-NA EUV</th><th>3D封装</th><th>SRAM密度</th><th>量产时间</th><th>综合风险</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td class="cell-accent">TSMC N2</td>
+                    <td>GAA NS</td>
+                    <td>A16 2026H2</td>
+                    <td>拒绝 (至2030+)</td>
+                    <td>CoWoS/SoIC (份额>90%)</td>
+                    <td class="cell-good">~38 Mb/mm²</td>
+                    <td>H2 2025</td>
+                    <td>低</td>
+                </tr>
+                <tr>
+                    <td class="cell-accent">Intel 18A</td>
+                    <td>RibbonFET</td>
+                    <td class="cell-good">PowerVia H2 2025 (领先)</td>
+                    <td class="cell-good">2台已安装 (领先)</td>
+                    <td>EMIB/Foveros</td>
+                    <td>~31.8 Mb/mm²</td>
+                    <td>H2 2025</td>
+                    <td>中-高</td>
+                </tr>
+                <tr>
+                    <td class="cell-accent">Samsung SF2</td>
+                    <td>MBCFET</td>
+                    <td>SF2Z 2027</td>
+                    <td>2026试产</td>
+                    <td>I-Cube/X-Cube</td>
+                    <td>~30 Mb/mm² (估算)</td>
+                    <td>2025-2026</td>
+                    <td>中</td>
+                </tr>
+                <tr>
+                    <td class="cell-accent">Rapidus 2nm</td>
+                    <td>GAA NS (IBM)</td>
+                    <td class="cell-warn">待定</td>
+                    <td class="cell-warn">待定</td>
+                    <td>RCS Chiplet</td>
+                    <td class="cell-warn">待定</td>
+                    <td>目标 2027</td>
+                    <td class="cell-warn">高</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+<!-- ================================================================ -->
+<!-- Tab 3: FlipFET 详析 -->
+<!-- ================================================================ -->
+<section id="tab-flipfet" class="tab-content">
+
+    <!-- 架构原理 -->
+    <div class="card">
+        <h3>架构原理</h3>
+        <p>FlipFET由北京大学黄如院士-吴恒研究员团队在VLSI 2024首次提出、VLSI 2025公布完整成果。核心思想彻底区别于CFET：CFET在同一晶圆上自下而上堆叠nMOS与pMOS，FlipFET则在两片独立晶圆上分别制造nMOS和pMOS，通过晶圆键合+翻转+背面减薄实现双面集成。</p>
+        <p><strong>核心流程：</strong>(1) 两片晶圆分别独立制造nMOS（正面，FinFET或GAA工艺）和pMOS；(2) 面对面键合（铜焊盘间距1-2μm）；(3) 翻转叠层并减薄背面晶圆；(4) 背面光刻校正实现n/p对准；(5) 背面互连形成。</p>
+        <p>FlipFET与CFET的扩展逻辑根本不同：CFET理论极限仅2层（n+p），而FlipFET每片晶圆自身支持多层设计（如GAA堆叠纳米片）。在A2节点下，FlipFET已实现Lg=15nm、SS=73.1mV/dec、DIBL=24mV、EOT=0.91nm的器件参数。全流程温度<400°C，兼容铜互连。</p>
+    </div>
+
+    <!-- 性能优势 -->
+    <div class="card">
+        <h3>三大架构级优势</h3>
+        <p><strong>1. 密度与功耗优势：</strong>FFET通过"双面器件 + 多层晶体管堆叠"实现区别于传统二维CMOS的三维集成路径。基于VLSI公开结果表明，FFET已展示基于双面结构的缩放路线，并在标准单元、SRAM与RISC-V Core等benchmark中获得显著PPA优势。相比传统FinFET架构，其逻辑密度具备超过单纯n/p垂直堆叠的扩展潜力，核心原因在于"双面集成 × 多层nanosheet/CFET stack"的乘积效应，而非传统CFET仅依赖单侧n/p堆叠。同时，FFET通过双面routing、ePR、更短互连长度以及前后侧器件独立优化，可有效降低寄生RC、IR drop与互连功耗，在后1nm节点展现出更优的系统级能效潜力。</p>
+        <p><strong>2. 漏电与器件隔离优势：</strong>相比CFET将nFET与pFET堆叠于同一垂直柱体结构、依赖中间MDI进行隔离，FFET通过双面工艺将器件分布于晶圆前后两侧，从结构上增加了n/p器件之间的物理隔离距离。随着技术节点进入亚1nm甚至亚0.7nm区间，器件间寄生漏电与热耦合问题将进一步加剧，而FFET的双面结构在降低器件串扰、提升热管理灵活性方面具有潜在架构优势。这也是FFET区别于传统单片垂直CFET路线的重要特点之一。</p>
+        <p><strong>3. 工艺兼容性与产业可实现性：</strong>FFET的另一核心优势在于其工艺路径相对友好。其前后侧器件均可在现有FinFET或GAA nanosheet工艺基础上实现，新增模块仅3项（晶圆键合+翻转减薄+背面光刻），三项工艺均源自3D NAND和BSI CIS领域已大规模量产的成熟技术，产业化基础扎实。</p>
+    </div>
+
+    <!-- 对比表 -->
+    <div class="card">
+        <h3>FlipFET vs CFET 十二维度对比</h3>
+        <table class="data-table" id="flip-cfet-table">
+            <thead><tr><th>维度</th><th>CFET</th><th>FlipFET</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- 技术示意图 -->
+    <div class="card">
+        <h3>技术示意图</h3>
+        <div style="margin-bottom:20px;">
+            <div class="chart-title">图5: FlipFET工艺流程图</div>
+            <img src="../charts/FlipFET工艺流程图.png" alt="FlipFET工艺流程图" style="width:100%;max-width:100%;height:auto;display:block;">
+        </div>
+        <div style="margin-bottom:20px;">
+            <div class="chart-title">图6: A14至A2节点下FFET的设计规则与工艺调节手段</div>
+            <img src="../charts/A14至A2节点下FFET的设计规则与工艺调节手段.png" alt="A14至A2节点下FFET的设计规则与工艺调节手段" style="width:100%;max-width:100%;height:auto;display:block;">
+        </div>
+        <div>
+            <div class="chart-title">图7: A14至A2节点下HP与HD FFET的器件参数</div>
+            <img src="../charts/A14至A2节点下HP与HD FFET的器件参数.png" alt="A14至A2节点下HP与HD FFET的器件参数" style="width:100%;max-width:100%;height:auto;display:block;">
+        </div>
+    </div>
+
+</section>
+
+<!-- ================================================================ -->
+<!-- Tab 4: 研发计划 -->
+<!-- ================================================================ -->
+<section id="tab-roadmap" class="tab-content">
+
+    <!-- 研发甘特图 -->
+    <div class="chart-box">
+        <div class="chart-title">图10: 研发计划甘特图 (18月时间轴)</div>
+        <div class="chart-div" id="chart-rnd-gantt"></div>
+    </div>
+
+    <div class="card">
+        <h3>下一步重点工作</h3>
+        <p>为了推动 FlipFET（FFET）技术方案从"实验室理论验证"向"产业化原理样片"跨越，研发团队下一步将围绕<strong>工艺突破、架构协同优化及全链路设计生态</strong>三个维度展开布局。</p>
+        <p><strong>1. 高精度背面套刻（Overlay）与自对准工艺开发：</strong>针对晶圆翻转减薄后的形变问题，重点攻关背面光刻校正技术。引入黄如教授文献提出的全自对准F3ET 栅极工艺，确保正面（FS）与背面（BS）栅极及源漏接触的纳米级对准精度。</p>
+        <p><strong>2. 多层垂直堆叠技术攻关：</strong>突破单一晶圆两面各单层器件的限制，探索在晶圆两面分别外延生长多层商用Nanosheet结构，实现 CFFET 架构的集成，以进一步释放 A2 及以下节点的晶格密度潜力。</p>
+    </div>
+
+    <div class="card">
+        <h3>关键技术难点</h3>
+        <table class="data-table">
+            <thead><tr><th>技术难点</th><th>描述</th><th>应对策略</th></tr></thead>
+            <tbody>
+                <tr><td>应力释放与晶圆热预算解耦</td><td>晶圆临时键合、衬底剥离以及背面高温工艺（如激活退火）极易引起晶圆翘曲或使正面已做好的器件退化</td><td>背面加工时严格控制热预算，保持双面器件性能均衡</td></tr>
+                <tr><td>背面互连与高深宽比通孔制造</td><td>背面 CMOS 器件需要与复杂的背面信号线、电源轨（BPR/ePR）互连，垂直通孔的刻蚀与金属填充工艺窗口极窄，极易引发寄生电阻飙升或良率失效</td><td>优化通孔刻蚀/填充工艺窗口，降低寄生电阻</td></tr>
+                <tr><td>三维散热与热安全控制</td><td>双面超堆叠结构使热阻大幅增加。高功耗高性能（HP）工作模式下，热量极难通过衬底导出，器件自发热效应（SHE）严重威胁可靠性与寿命</td><td>热—电耦合建模+优化散热路径</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>进一步提高器件性能的设想</h3>
+        <p><strong>1. 沟道材料创新（引入高迁移率二维材料）：</strong>在后 1 nm 阶段，考虑将背面（BS）的硅基沟道替换为低阻抗、高迁移率的二维过渡金属硫族化合物，利用其原子级薄的厚度进一步抑制短沟道效应。</p>
+        <p><strong>2. 多阈值电压调谐机制调优：</strong>利用文献中已验证的 FFET 独立双面工艺优势，精细化设计背面功函数金属（WFM）工程，实现约 500mV 的超宽阈值电压调节窗口，使同一颗芯片能完美兼顾高性能（HP）与超低功耗（LP）场景。</p>
+        <p><strong>3. 热电协同设计：</strong>在进行 DTCO（设计技术协同优化）时，引入背面金刚石或埋入式高导热系数介质（如 AlN）作为散热衬底，从架构源头化解三维集成晶体管的热学瓶颈，将环形振荡器（RO）的频率和芯片整体能效比推向新高。</p>
+    </div>
+
+</section>
+
+<!-- ================================================================ -->
+<!-- Tab 5: 参考文献 -->
+<!-- ================================================================ -->
+<section id="tab-references" class="tab-content">
+
+    <div class="card">
+        <h3>参考文献 (共18篇, 2023-2026)</h3>
+        <div class="filter-bar" id="ref-filter-bar"></div>
+        <div id="ref-list" style="margin-top:12px"></div>
+    </div>
+
+</section>
+
+</div><!-- /container -->
+
+<!-- 回到顶部 -->
+<button class="back-to-top" id="back-to-top" title="回到顶部">↑</button>
+
+<!-- JS -->
+<script src="js/data.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/main.js"></script>
+
+<!-- 动态渲染 -->
+<script>
+(function() {
+    // --- 渲染FlipFET vs CFET对照表 ---
+    const tableBody = document.querySelector('#flip-cfet-table tbody');
+    if (tableBody) {
+        FLIP_CFET_TABLE.forEach(row => {
+            const tr = document.createElement('tr');
+            row.forEach((cell, i) => {
+                const td = document.createElement('td');
+                td.textContent = cell;
+                if (i === 2) td.className = 'cell-good'; // FlipFET column
+                tr.appendChild(td);
+            });
+            tableBody.appendChild(tr);
+        });
+    }
+
+    // --- 渲染3D封装生态系统表 ---
+    const packagingBody = document.getElementById('packaging-table-body');
+    if (packagingBody && typeof PACKAGING_DATA !== 'undefined') {
+        PACKAGING_DATA.forEach(row => {
+            const tr = document.createElement('tr');
+            [row.company, row.platform, row.tech, row.interposer, row.density, row.customers, row.status].forEach(cell => {
+                const td = document.createElement('td');
+                td.textContent = cell;
+                tr.appendChild(td);
+            });
+            packagingBody.appendChild(tr);
+        });
+    }
+
+    // --- 渲染参考文献筛选按钮 ---
+    const filterBar = document.getElementById('ref-filter-bar');
+    if (filterBar) {
+        REF_CATEGORIES.forEach((cat, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'filter-btn ref-filter-btn' + (idx === 0 ? ' active' : '');
+            btn.dataset.cat = cat;
+            btn.textContent = cat + ' (' + (cat === '全部' ? REFERENCES.length : REFERENCES.filter(r => r.cat === cat).length) + ')';
+            filterBar.appendChild(btn);
+        });
+    }
+
+    // --- 渲染参考文献列表 ---
+    const refList = document.getElementById('ref-list');
+    if (refList) {
+        REFERENCES.forEach(ref => {
+            const div = document.createElement('div');
+            div.className = 'ref-item';
+            div.dataset.cat = ref.cat;
+            let html = '<span class="ref-id">' + ref.id + '</span> ' + ref.text;
+            if (ref.doi) html += ' <a href="' + ref.doi + '" target="_blank" rel="noopener">[DOI]</a>';
+            div.innerHTML = html;
+            refList.appendChild(div);
+        });
+    }
+})();
+</script>
+
+</body>
+</html>
